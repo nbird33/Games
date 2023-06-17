@@ -1,4 +1,5 @@
-# imporrt modules
+# create a snake and setup the snake list
+# import modules
 import pygame
 from pygame.locals import *
 
@@ -59,5 +60,3 @@ while run:
 
 # end pygame
 pygame.quit()
-
-# create a snake and setup the snake list
