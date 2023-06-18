@@ -1,4 +1,4 @@
-# create a snake and setup the snake list
+# create snake movement
 # import modules
 import pygame
 from pygame.locals import *
@@ -15,6 +15,8 @@ pygame.display.set_caption("Snake")
 
 #define game variables
 cell_size = 10
+direction = 1 # 1 is up, 2 is right, 3 is down, 4 is left
+update_snake = 0
 
 
 # create snake
@@ -42,6 +44,32 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and direction != 3:
+                direction = 1
+            if event.key == pygame.K_RIGHT and direction != 4:
+                direction = 2    
+            if event.key == pygame.K_DOWN and direction != 1:
+                direction = 3
+            if event.key == pygame.K_LEFT and direction != 2:
+                direction = 4 
+
+    if update_snake > 99:
+        update_snake = 0
+        snake_position = snake_position[-1:] + snake_position[:-1]
+        # heading up
+        if direction == 1:
+            snake_position[0][0] = snake_position[1][0]
+            snake_position[0][1] = snake_position[1][1] - cell_size
+        if direction == 3:
+            snake_position[0][0] = snake_position[1][0]
+            snake_position[0][1] = snake_position[1][1] + cell_size
+        if direction == 2:
+            snake_position[0][1] = snake_position[1][1]
+            snake_position[0][0] = snake_position[1][0] + cell_size
+        if direction == 4:
+            snake_position[0][1] = snake_position[1][1]
+            snake_position[0][0] = snake_position[1][0] - cell_size
 
     # draw snake
     head = 1
@@ -57,6 +85,8 @@ while run:
             
     # update the display
     pygame.display.update()
+
+    update_snake += 1
 
 # end pygame
 pygame.quit()
